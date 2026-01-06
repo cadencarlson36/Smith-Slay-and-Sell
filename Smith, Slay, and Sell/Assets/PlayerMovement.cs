@@ -7,6 +7,7 @@ public class movement : MonoBehaviour
 
 	private CharacterController controller;
 	private Vector3 playerVelocity;
+	private float deadzone = 0.2f;
 
 	[Header("Input Actions")]
 	// In the editor select the Input Action Reference for movement
@@ -24,6 +25,9 @@ public class movement : MonoBehaviour
 	void Update(){
 
 		Vector2 input = moveAction.action.ReadValue<Vector2>();
+		if (input.magnitude < deadzone){
+			return;
+		}
 		Vector3 move = new Vector3(input.x, 0, input.y);
 		move = move.normalized;
 
