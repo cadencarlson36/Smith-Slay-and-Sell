@@ -8,6 +8,7 @@ public class movement : MonoBehaviour
 	private CharacterController controller;
 	private Vector3 playerVelocity;
 	private float deadzone = 0.2f;
+	private float turnSmoothSpeed = 10f;
 
 	[Header("Input Actions")]
 	// In the editor select the Input Action Reference for movement
@@ -32,7 +33,8 @@ public class movement : MonoBehaviour
 		move = move.normalized;
 
 		if (move != Vector3.zero){
-		    transform.forward = move;
+			Quaternion targetRotation = Quaternion.LookRotation(move, Vector3.up);
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSmoothSpeed * Time.deltaTime);
 		}
 		Vector3 finalMove = (move * playerSpeed) ;
 		//Debug.Log(finalMove);
