@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class Interact : MonoBehaviour
 {
     private CharacterController controller;
@@ -9,6 +8,9 @@ public class Interact : MonoBehaviour
     public bool showInteractSphere = false;
 
     private Transform interactSphereTransform;
+    private InteractSphere interactSphereScript;
+
+    private GameObject heldObject;
 
     private void Awake()
     {
@@ -23,10 +25,12 @@ public class Interact : MonoBehaviour
         if (!interactSphereTransform)
         {
             var interactSphereObj = new GameObject("InteractSphere");
+            interactSphereObj.AddComponent<InteractSphere>();
             interactSphereObj.transform.SetParent(transform);
             interactSphereObj.transform.localPosition = new Vector3(0, 0, 1);
             interactSphereObj.AddComponent<SphereCollider>().isTrigger = true;
             interactSphereTransform = interactSphereObj.transform;
+            interactSphereScript = interactSphereObj.GetComponent<InteractSphere>();
             var meshFilter = interactSphereObj.GetComponent<MeshFilter>();
             var meshRenderer = interactSphereObj.GetComponent<MeshRenderer>();
             meshFilter = interactSphereObj.AddComponent<MeshFilter>();
@@ -56,20 +60,37 @@ public class Interact : MonoBehaviour
     //Callback function definitions for each of the interactions
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
+
         Debug.Log("Interact started");
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
-
-        Debug.Log("Interact held");
+        var objectInRange = interactSphereScript.GetNearestInRange();
+        if (objectInRange)
+        {
+            heldObject = objectInRange;
+            heldObject.transform.SetParent(transform);
+            heldObject.transform.localPosition = new Vector3(0, 0, 1.5f);
+        }
+        Debug.Log(objectInRange);
+        //Debug.Log("Interact held");
     }
     private void OnInteractCanceled(InputAction.CallbackContext ctx)
     {
 
         Debug.Log("Interact canceled");
+        if (heldObject)
+        {
+            heldObject.transform.SetParent(null);
+            heldObject = null;
+        }
     }
     void Update()
     {
+        if (heldObject != null)
+        {
+            heldObject.transform.position = transform.position + transform.forward * 1.5f;
+        }
     }
 }
