@@ -3,8 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Interact : MonoBehaviour { 
 	private CharacterController controller; 
-	[Header("Input Actions")] 
-		public InputActionReference interactAction; 
 	[Header("Debug Options")] 
 		public bool showInteractSphere = false; 
 
@@ -27,7 +25,12 @@ public class Interact : MonoBehaviour {
 			meshFilter.mesh = Resources.GetBuiltinResource<Mesh>("Sphere.fbx"); 
 			meshRenderer = interactSphereObj.AddComponent<MeshRenderer>(); 
 			meshRenderer.material.color = Color.green; 
+			meshRenderer.enabled = showInteractSphere;	
 		} 
+		var interactAction = GetComponent<PlayerInput>().actions["Interact"];
+		interactAction.started += OnInteractStarted;
+		interactAction.performed += OnInteractPerformed;
+		interactAction.canceled += OnInteractCanceled;
 	} 
 
 	private void OnValidate() { 
@@ -36,15 +39,19 @@ public class Interact : MonoBehaviour {
 		if (meshRenderer){
 			meshRenderer.enabled = showInteractSphere;
 		}
-
 	} 
-	void Update() { 
-		// Not best practice to subscribe every frame, put this in Start or Awake for real code! 
-		interactAction.action.started += ctx => 
+	private void OnInteractStarted(InputAction.CallbackContext ctx){
 			Debug.Log("Interact started"); 
-		interactAction.action.performed += ctx => 
+	}
+
+	private void OnInteractPerformed(InputAction.CallbackContext ctx){
+
 			Debug.Log("Interact held"); 
-		interactAction.action.canceled += ctx => 
+	}
+	private void OnInteractCanceled(InputAction.CallbackContext ctx){
+
 			Debug.Log("Interact canceled"); 
+	}
+	void Update() { 
 	} 
 }
