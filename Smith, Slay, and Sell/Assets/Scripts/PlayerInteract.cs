@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Collections.Generic;
 
 public class Interact : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class Interact : MonoBehaviour
     public bool showInteractSphere = false;
 
     private Transform interactSphereTransform;
+    private InteractSphere interactSphereScript;
 
     private void Awake()
     {
@@ -23,10 +24,12 @@ public class Interact : MonoBehaviour
         if (!interactSphereTransform)
         {
             var interactSphereObj = new GameObject("InteractSphere");
+            interactSphereObj.AddComponent<InteractSphere>();
             interactSphereObj.transform.SetParent(transform);
             interactSphereObj.transform.localPosition = new Vector3(0, 0, 1);
             interactSphereObj.AddComponent<SphereCollider>().isTrigger = true;
             interactSphereTransform = interactSphereObj.transform;
+            interactSphereScript = interactSphereObj.GetComponent<InteractSphere>();
             var meshFilter = interactSphereObj.GetComponent<MeshFilter>();
             var meshRenderer = interactSphereObj.GetComponent<MeshRenderer>();
             meshFilter = interactSphereObj.AddComponent<MeshFilter>();
@@ -56,13 +59,15 @@ public class Interact : MonoBehaviour
     //Callback function definitions for each of the interactions
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
+
         Debug.Log("Interact started");
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
-
-        Debug.Log("Interact held");
+        var objectInrange = interactSphereScript.GetNearestInRange();
+        Debug.Log(objectInrange);
+        //Debug.Log("Interact held");
     }
     private void OnInteractCanceled(InputAction.CallbackContext ctx)
     {
