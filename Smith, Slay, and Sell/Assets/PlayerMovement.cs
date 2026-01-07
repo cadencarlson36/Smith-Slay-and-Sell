@@ -8,24 +8,24 @@ public class movement : MonoBehaviour
 	private CharacterController controller;
 	private Vector3 playerVelocity;
 	private float deadzone = 0.2f;
-	private float turnSmoothSpeed = 10f;
+	private float turnSmoothSpeed = 60f;
 
-	[Header("Input Actions")]
-	// In the editor select the Input Action Reference for movement
-	public InputActionReference moveAction; 
-	private void Awake(){
+	private PlayerInput playerInput;
+
+	private void Start(){
 		//This if statement attemps to get a component if it already exists,
 		//otherwise it adds it. This saves editor memory and allows easier modularity.
 		if (!TryGetComponent<CharacterController>(out controller)){
 			controller = gameObject.AddComponent<CharacterController>();
 		}
 		controller.minMoveDistance = 0f;
+		playerInput = GetComponent<PlayerInput>();
 		//Debug.Log(controller);
 	}
 
 	void Update(){
 
-		Vector2 input = moveAction.action.ReadValue<Vector2>();
+		Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 		if (input.magnitude < deadzone){
 			return;
 		}
