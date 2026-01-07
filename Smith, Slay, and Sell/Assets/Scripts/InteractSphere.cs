@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+// TODO filter for pickupable/interactables probably using tags.
 public class InteractSphere : MonoBehaviour
 {
     private List<GameObject> objectsInRange = new List<GameObject>();
@@ -11,6 +13,7 @@ public class InteractSphere : MonoBehaviour
             //Debug.Log($"In range: {obj.name}");
         }
     }
+    //TODO make this actually return the nearest and not just the first in the list
     public GameObject GetNearestInRange()
     {
         return (objectsInRange.Count > 0) ? objectsInRange[0] : null;

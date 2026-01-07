@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
 
 public class Interact : MonoBehaviour
 {
@@ -10,6 +9,8 @@ public class Interact : MonoBehaviour
 
     private Transform interactSphereTransform;
     private InteractSphere interactSphereScript;
+
+    private GameObject heldObject;
 
     private void Awake()
     {
@@ -65,16 +66,31 @@ public class Interact : MonoBehaviour
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
-        var objectInrange = interactSphereScript.GetNearestInRange();
-        Debug.Log(objectInrange);
+        var objectInRange = interactSphereScript.GetNearestInRange();
+        if (objectInRange)
+        {
+            heldObject = objectInRange;
+            heldObject.transform.SetParent(transform);
+            heldObject.transform.localPosition = new Vector3(0, 0, 1.5f);
+        }
+        Debug.Log(objectInRange);
         //Debug.Log("Interact held");
     }
     private void OnInteractCanceled(InputAction.CallbackContext ctx)
     {
 
         Debug.Log("Interact canceled");
+        if (heldObject)
+        {
+            heldObject.transform.SetParent(null);
+            heldObject = null;
+        }
     }
     void Update()
     {
+        if (heldObject != null)
+        {
+            heldObject.transform.position = transform.position + transform.forward * 1.5f;
+        }
     }
 }
