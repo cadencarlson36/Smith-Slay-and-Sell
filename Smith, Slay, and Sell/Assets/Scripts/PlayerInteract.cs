@@ -19,8 +19,9 @@ public class Interact : MonoBehaviour
         if (!TryGetComponent<CharacterController>(out controller))
             controller = gameObject.AddComponent<CharacterController>();
 
-        //This code searches for the InteractSphere, and if it doesn't exist, it creates a new one.
+        //Searches for the InteractSphere, and if it doesn't exist, it creates a new one.
         //This is slightly unnecessary to be completely honest.
+        //Majority of this code could be replaced by simply creating a proper prefab with the below settings.
         interactSphereTransform = transform.Find("InteractSphere");
         if (!interactSphereTransform)
         {
@@ -39,7 +40,7 @@ public class Interact : MonoBehaviour
             meshRenderer.material.color = Color.green;
             meshRenderer.enabled = showInteractSphere;
         }
-        //Set callback functions
+        //Set callback functions for PlayerInput actions
         var interactAction = GetComponent<PlayerInput>().actions["Interact"];
         interactAction.started += OnInteractStarted;
         interactAction.performed += OnInteractPerformed;
@@ -60,8 +61,7 @@ public class Interact : MonoBehaviour
     //Callback function definitions for each of the interactions
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
-
-        Debug.Log("Interact started");
+        //Debug.Log("Interact started");
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
@@ -69,19 +69,27 @@ public class Interact : MonoBehaviour
         var objectInRange = interactSphereScript.GetNearestInRange();
         if (objectInRange)
         {
+            //This is bad. We really should handle the behavior from the object's side, not the player side.
+            //It's important to separate concerns. The player should only try to interact with things,
+            //the thing should respond. Having all control handled by the player leads to giant monolithic player
+            //classes that attempt to handle everything when it really shouldn't. It also makes the refactor
+            //for online multiplayer impossibly difficult. When we start adding more objects I will rewrite this 
+            //to work from the object's side. If you see this and we have other objects implemented, 
+            //tell Nick/mynti to rewrite this
             heldObject = objectInRange;
             heldObject.transform.SetParent(transform);
             heldObject.transform.localPosition = new Vector3(0, 0, 1.5f);
         }
-        Debug.Log(objectInRange);
+        //Debug.Log(objectInRange);
         //Debug.Log("Interact held");
     }
     private void OnInteractCanceled(InputAction.CallbackContext ctx)
     {
 
-        Debug.Log("Interact canceled");
+        //Debug.Log("Interact canceled");
         if (heldObject)
         {
+            //See above OnInteractPerformed as to why this is bad.
             heldObject.transform.SetParent(null);
             heldObject = null;
         }
@@ -90,6 +98,7 @@ public class Interact : MonoBehaviour
     {
         if (heldObject != null)
         {
+            //See above OnInteractPerfromed as to why this is bad.
             heldObject.transform.position = transform.position + transform.forward * 1.5f;
         }
     }
