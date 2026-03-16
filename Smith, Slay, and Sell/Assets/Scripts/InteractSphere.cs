@@ -13,10 +13,27 @@ public class InteractSphere : MonoBehaviour
             //Debug.Log($"In range: {obj.name}");
         }
     }
-    //TODO make this actually return the nearest and not just the first in the list
+
     public GameObject GetNearestInRange()
     {
-        return (objectsInRange.Count > 0) ? objectsInRange[0] : null;
+        //Remove any destroyed or missing objects for whatever reason.
+        objectsInRange.RemoveAll(item => item == null);
+        if (objectsInRange.Count == 0) return null;
+
+        GameObject nearestObj = null;
+        float shortestDistance = float.MaxValue;
+
+        foreach (var obj in objectsInRange)
+        {
+            // sqrMagnitude is faster
+            float distanceToObj = (obj.transform.position - transform.position).sqrMagnitude;
+            if (distanceToObj < shortestDistance)
+            {
+                shortestDistance = distanceToObj;
+                nearestObj = obj;
+            }
+        }
+        return nearestObj;
     }
     void OnTriggerEnter(Collider other)
     {
