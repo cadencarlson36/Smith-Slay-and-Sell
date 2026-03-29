@@ -93,7 +93,7 @@ public class Interact : MonoBehaviour
     {
         if (heldObject != null)
         {
-            heldObject.transform.position = transform.position + transform.forward * 1.5f;
+            heldObject.position = transform.position + transform.forward * 1.5f;
         }
     }
 }
