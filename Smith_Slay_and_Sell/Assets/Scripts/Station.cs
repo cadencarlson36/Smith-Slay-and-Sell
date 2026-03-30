@@ -8,7 +8,7 @@ public class Station : MonoBehaviour
         Processing,
         Finished
     }
-
+    [SerializeField] private GameObject fireSprite;
     [Header("Station Status")]
     public StationState currentState = StationState.Idle;
 
@@ -34,14 +34,19 @@ public class Station : MonoBehaviour
 
     void Update()
     {
+        if (fireSprite != null)
+        {
+            fireSprite.SetActive(currentState == StationState.Processing);
+        }
         if (currentState == StationState.Processing)
         {
             currentTimer += Time.deltaTime;
-        }
-        if (currentTimer >= processingTime)
-        {
-            CompleteProcessing();
-            currentTimer = 0f;
+            if (currentTimer >= processingTime)
+            {
+                CompleteProcessing();
+                currentTimer = 0f;
+            }
+
         }
     }
 
@@ -74,12 +79,27 @@ public class Station : MonoBehaviour
         if (outputPrefab != null)
         {
             Vector3 spawnPos = spawnPoint != null ? spawnPoint.position : transform.position + Vector3.up;
-            Instantiate(outputPrefab, spawnPos, Quaternion.identity);
+            GameObject spawnedObject = Instantiate(outputPrefab, spawnPos, Quaternion.identity);
+            Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                float upForce = 5f;
+                float sideRange = 2f;
+
+                Vector3 force = new Vector3(
+                    Random.Range(-sideRange, sideRange),
+                    upForce,
+                    Random.Range(-sideRange, sideRange)
+                );
+
+                rb.AddForce(force, ForceMode.Impulse);
+            }
         }
         else
         {
-            Debug.LogWarning("No output prefab assigned to station! Did you forget to add an output prefab?");
+            Debug.LogWarning("No output prefab assigned to station!");
         }
+
         currentState = StationState.Idle;
     }
 }

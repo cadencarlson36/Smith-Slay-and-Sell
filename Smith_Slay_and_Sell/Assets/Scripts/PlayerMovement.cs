@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float playerSpeed = 5.0f;
-    [SerializeField] private float deadzone = 0.5f;
+    [SerializeField] private float deadzone = 1f;
     [SerializeField] private float turnSmoothSpeed = 60f;
     [SerializeField] private float pushPower = 2.0f;
 
@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
             isWalking = false;
             return;
         }
+        Debug.Log(input);
 
         //Create a Vector3 from the Vector2 input
         Vector3 move = new Vector3(input.x, 0, input.y);

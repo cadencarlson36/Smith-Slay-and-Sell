@@ -30,7 +30,9 @@ public class Interact : MonoBehaviour
             interactSphereObj.AddComponent<InteractSphere>();
             interactSphereObj.transform.SetParent(transform);
             interactSphereObj.transform.localPosition = new Vector3(0, 0, 1);
-            interactSphereObj.AddComponent<SphereCollider>().isTrigger = true;
+            SphereCollider col = interactSphereObj.AddComponent<SphereCollider>();
+            col.isTrigger = true;
+            col.radius = 1f;
             interactSphereTransform = interactSphereObj.transform;
             interactSphereScript = interactSphereObj.GetComponent<InteractSphere>();
             var meshFilter = interactSphereObj.GetComponent<MeshFilter>();

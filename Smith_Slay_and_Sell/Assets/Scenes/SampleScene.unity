@@ -1451,7 +1451,7 @@ PrefabInstance:
     - target: {fileID: -312177322016134072, guid: 28ff888ac8eb97e38922a381e95885d5, type: 3}
       propertyPath: outputPrefab
       value: 
-      objectReference: {fileID: 2662548229026831523, guid: ce0465d72b0ebc605bb99783050aeb32, type: 3}
+      objectReference: {fileID: 5506925708470799719, guid: 73b884746808ec1e48fc764b391bf8fe, type: 3}
     - target: {fileID: 5506925708470799719, guid: 28ff888ac8eb97e38922a381e95885d5, type: 3}
       propertyPath: m_Name
       value: Station
