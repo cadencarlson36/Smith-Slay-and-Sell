@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float playerSpeed = 5.0f;
     [SerializeField] private float deadzone = 0.5f;
     [SerializeField] private float turnSmoothSpeed = 60f;
+    [SerializeField] private float pushPower = 2.0f;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -21,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
         {
             controller = gameObject.AddComponent<CharacterController>();
         }
+
+        controller.center = new Vector3(0f, 0.5f, 0f);
         controller.minMoveDistance = 0f;
         playerInput = GetComponent<PlayerInput>();
         //Debug.Log(controller);
@@ -61,5 +64,18 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWalking()
     {
         return isWalking;
+    }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        if (body == null || body.isKinematic)
+        {
+            return;
+        }
+
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        body.AddForce(pushDir * pushPower, ForceMode.Impulse);
     }
 }

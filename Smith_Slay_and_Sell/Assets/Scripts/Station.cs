@@ -41,6 +41,7 @@ public class Station : MonoBehaviour
         if (currentTimer >= processingTime)
         {
             CompleteProcessing();
+            currentTimer = 0f;
         }
     }
 
