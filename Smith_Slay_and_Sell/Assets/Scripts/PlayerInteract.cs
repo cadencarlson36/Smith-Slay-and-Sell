@@ -89,8 +89,7 @@ public class Interact : MonoBehaviour
             if (heldRb != null)
             {
                 heldRb.useGravity = false;
-                heldRb.angularDamping = 10f;
-                // heldRb.GetComponent<Collider>().;
+                heldRb.angularDamping = dampening;
             }
         }
     }
@@ -103,9 +102,6 @@ public class Interact : MonoBehaviour
     {
         if (heldRb != null)
         {
-            var col = heldRb.GetComponentInChildren<Collider>();
-            if (col != null) Physics.IgnoreCollision(GetComponent<Collider>(), col, false);
-
             heldRb.useGravity = true;
             heldRb.angularDamping = 0.05f;
             heldRb = null;
@@ -117,6 +113,7 @@ public class Interact : MonoBehaviour
     {
         if (heldRb != null)
         {
+            //Magnet hands code
             Vector3 targetPos = transform.position + (transform.forward * holdDistance) + (Vector3.up * holdHeight);
             Vector3 direction = targetPos - heldRb.position;
             float distance = direction.magnitude;
