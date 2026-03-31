@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class Station : MonoBehaviour
+public class Furnace : MonoBehaviour
 {
-    public enum StationState
+    public enum FurnaceState
     {
         Idle,
         Processing,
         Finished
     }
     [SerializeField] private GameObject fireSprite;
-    [Header("Station Status")]
-    public StationState currentState = StationState.Idle;
+    [Header("Furnace Status")]
+    public FurnaceState currentState = FurnaceState.Idle;
 
     [Header("Processing Settings")]
     public float processingTime = 3.0f;
@@ -22,7 +22,7 @@ public class Station : MonoBehaviour
     //one tag can be set at a time in Unity, but we might have multiple processing
     //types that should only work on some entities
     [Header("Item Settings")]
-    [Tooltip("The tag of the item this station accepts.")]
+    [Tooltip("The tag of the item this Furnace accepts.")]
     public string validItemTag = "Processable";
     [Tooltip("The prefab to spawn after processing completes")]
     public GameObject outputPrefab;
@@ -36,9 +36,9 @@ public class Station : MonoBehaviour
     {
         if (fireSprite != null)
         {
-            fireSprite.SetActive(currentState == StationState.Processing);
+            fireSprite.SetActive(currentState == FurnaceState.Processing);
         }
-        if (currentState == StationState.Processing)
+        if (currentState == FurnaceState.Processing)
         {
             currentTimer += Time.deltaTime;
             if (currentTimer >= processingTime)
@@ -52,15 +52,15 @@ public class Station : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (currentState == StationState.Idle && other.CompareTag(validItemTag))
+        if (currentState == FurnaceState.Idle && other.CompareTag(validItemTag))
         {
             StartProcessing(other.gameObject);
         }
     }
     private void StartProcessing(GameObject inputItem)
     {
-        Debug.Log($"Station started processing: {inputItem.name}");
-        currentState = StationState.Processing;
+        Debug.Log($"Furnace started processing: {inputItem.name}");
+        currentState = FurnaceState.Processing;
         currentTimer = 0f;
 
         itemBeingProcessed = inputItem;
@@ -69,8 +69,8 @@ public class Station : MonoBehaviour
 
     private void CompleteProcessing()
     {
-        Debug.Log("Station finished processing.");
-        currentState = StationState.Finished;
+        Debug.Log("Furnace finished processing.");
+        currentState = FurnaceState.Finished;
 
         if (itemBeingProcessed != null)
         {
@@ -97,9 +97,9 @@ public class Station : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No output prefab assigned to station!");
+            Debug.LogWarning("No output prefab assigned to Furnace!");
         }
 
-        currentState = StationState.Idle;
+        currentState = FurnaceState.Idle;
     }
 }

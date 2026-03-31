@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1446661665357307756}
   - component: {fileID: -2905735745653317713}
   - component: {fileID: -4271738416446910794}
-  - component: {fileID: -312177322016134072}
+  - component: {fileID: 3794923082655721951}
   m_Layer: 0
   m_Name: Anvil
   m_TagString: Untagged
@@ -35,8 +35,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8653511239858664009}
-  - {fileID: 6652233315285894396}
   - {fileID: 2672561981651810579}
+  - {fileID: 6652233315285894396}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8909249954088934599
@@ -120,7 +120,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &-4271738416446910794
 BoxCollider:
@@ -143,7 +143,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &-312177322016134072
+--- !u!114 &3794923082655721951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,9 +152,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5506925708470799719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b176f2545133bc3f0baf9ad62ed88bef, type: 3}
+  m_Script: {fileID: 11500000, guid: fc6c7ecae480cc73c8c62b337d302c71, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Station
+  m_EditorClassIdentifier: Assembly-CSharp::Furnace
   fireSprite: {fileID: 0}
   currentState: 0
   processingTime: 3
