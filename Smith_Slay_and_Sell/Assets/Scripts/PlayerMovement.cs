@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.center = new Vector3(0f, playerCenter, 0f);
+        controller.radius = 0.25f;
         controller.minMoveDistance = 0f;
         playerInput = GetComponent<PlayerInput>();
         //Debug.Log(controller);
@@ -42,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
             isWalking = false;
             return;
         }
-        Debug.Log(input);
 
         //Create a Vector3 from the Vector2 input
         Vector3 move = new Vector3(input.x, 0, input.y);
@@ -67,19 +67,19 @@ public class PlayerMovement : MonoBehaviour
     {
         return isWalking;
     }
-    //    void OnControllerColliderHit(ControllerColliderHit hit)
-    //    {
-    //        Rigidbody body = hit.collider.attachedRigidbody;
-    //
-    //        if (body == null || body.isKinematic)
-    //        {
-    //            return;
-    //        }
-    //
-    //        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.1f, hit.moveDirection.z);
-    //
-    //        body.AddForce(pushDir * pushPower, ForceMode.Impulse);
-    //    }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Rigidbody body = hit.collider.attachedRigidbody;
+
+        // if (body == null || body.isKinematic)
+        // {
+        //     return;
+        // }
+
+        // Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.1f, hit.moveDirection.z);
+
+        // body.AddForce(pushDir * pushPower, ForceMode.Impulse);
+    }
     void LateUpdate()
     {
         Vector3 lockedPosition = transform.position;

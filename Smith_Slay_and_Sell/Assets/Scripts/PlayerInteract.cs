@@ -18,7 +18,7 @@ public class Interact : MonoBehaviour
     public float suctionStrength = 250f;
     public float dampening = 15f;
     public float holdDistance = 1.5f;
-    public float holdHeight = 0.5f;
+    public float holdHeight = 1.0f;
 
     private void Awake()
     {
@@ -90,7 +90,7 @@ public class Interact : MonoBehaviour
             {
                 heldRb.useGravity = false;
                 heldRb.angularDamping = 10f;
-                Physics.IgnoreCollision(GetComponent<Collider>(), objectInRange.GetComponent<Collider>(), true);
+                // heldRb.GetComponent<Collider>().;
             }
         }
     }
