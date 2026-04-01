@@ -7,6 +7,7 @@ TagManager:
   - Processable
   - Pickupable
   - Forgeable
+  - Interactable
   layers:
   - Default
   - TransparentFX

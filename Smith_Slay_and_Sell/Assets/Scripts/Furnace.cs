@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Furnace : MonoBehaviour
+public class Furnace : MonoBehaviour, IInteract
 {
     public enum FurnaceState
     {
@@ -54,7 +54,8 @@ public class Furnace : MonoBehaviour
     {
         if (currentState == FurnaceState.Idle && other.CompareTag(validItemTag))
         {
-            StartProcessing(other.gameObject);
+
+            StartProcessing(other.transform.root.gameObject);
         }
     }
     private void StartProcessing(GameObject inputItem)
@@ -101,5 +102,12 @@ public class Furnace : MonoBehaviour
         }
 
         currentState = FurnaceState.Idle;
+    }
+    //Public interact for IInteract interface
+    //Handles the interact functionality
+    public void Interact(GameObject player)
+    {
+        //TODO idk do something here maybe
+        Debug.Log(player);
     }
 }

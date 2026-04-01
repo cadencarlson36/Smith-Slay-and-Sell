@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interact : MonoBehaviour
+public class PlayerInteract : MonoBehaviour
 {
-    private string PICKUP_TAG = "Pickupable";
+    private string INTERACT_TAG = "Interactable";
     private CharacterController controller;
     [Header("Debug Options")]
     public bool showInteractSphere = false;
@@ -11,15 +11,15 @@ public class Interact : MonoBehaviour
     private Transform interactSphereTransform;
     private InteractSphere interactSphereScript;
 
-    private Transform heldObject;
-    private Rigidbody heldRb;
+    //Public for interact interface
+    public Transform heldObject;
+    public Rigidbody heldRb;
 
     [Header("Magnet Settings")]
     public float suctionStrength = 250f;
     public float dampening = 15f;
     public float holdDistance = 1.5f;
     public float holdHeight = 1.0f;
-
     private void Awake()
     {
         //This code attempts to get a component on the attatched game object and otherwise creates it.
@@ -67,6 +67,7 @@ public class Interact : MonoBehaviour
             meshRenderer.enabled = showInteractSphere;
         }
     }
+
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
         interactSphereScript.CleanUpList();
@@ -83,20 +84,27 @@ public class Interact : MonoBehaviour
             DropObject();
             return;
         }
+
         //Sanity check
         heldRb = null;
         heldObject = null;
 
-        var objectInRange = interactSphereScript.GetNearestFiltered(PICKUP_TAG);
-        if (objectInRange)
+        //The following block of code gets the nearest interactable that collided with the interact sphere
+        //it then gets all of the MonoBehaviours in order to extract a possible interface, and then
+        //uses the provided interface to interact with the object. We pass the player so the object can
+        //attach itself or perform any needed behaviors. On my machine, the namespace doens't recognize
+        //the interface
+        var objectInRange = interactSphereScript.GetNearestFiltered(INTERACT_TAG);
+        if (objectInRange != null)
         {
-            heldObject = objectInRange.transform.root;
-            heldRb = heldObject.GetComponent<Rigidbody>();
-
-            if (heldRb != null)
+            var tempMonoArray = objectInRange.GetComponents<MonoBehaviour>();
+            foreach (var monoBehavior in tempMonoArray)
             {
-                heldRb.useGravity = false;
-                heldRb.angularDamping = dampening;
+                var temp = monoBehavior as IInteract;
+                if (temp != null)
+                {
+                    temp.Interact(this.gameObject);
+                }
             }
         }
     }
@@ -109,8 +117,9 @@ public class Interact : MonoBehaviour
     {
         if (heldRb != null)
         {
+
             heldRb.useGravity = true;
-            heldRb.angularDamping = 0.05f;
+            heldRb.angularDamping = 0.05f;//default unity value
             heldRb = null;
         }
         heldObject = null;

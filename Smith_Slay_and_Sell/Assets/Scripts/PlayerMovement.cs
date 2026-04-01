@@ -27,7 +27,9 @@ public class PlayerMovement : MonoBehaviour
         controller.center = new Vector3(0f, playerCenter, 0f);
         controller.radius = 0.25f;
         controller.minMoveDistance = 0f;
+        controller.skinWidth = 0.1f;
         playerInput = GetComponent<PlayerInput>();
+
         //Debug.Log(controller);
     }
 
@@ -69,16 +71,17 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        // Rigidbody body = hit.collider.attachedRigidbody;
+        Debug.Log("Hit");
+        Rigidbody body = hit.collider.attachedRigidbody;
 
-        // if (body == null || body.isKinematic)
-        // {
-        //     return;
-        // }
+        if (body == null || body.isKinematic)
+        {
+            return;
+        }
 
-        // Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.1f, hit.moveDirection.z);
-
-        // body.AddForce(pushDir * pushPower, ForceMode.Impulse);
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0.1f, hit.moveDirection.z);
+        body.linearVelocity = pushDir * pushPower;
+        //        body.AddForce(pushDir * pushPower, ForceMode.Impulse);
     }
     void LateUpdate()
     {
