@@ -41,7 +41,12 @@ public class Anvil : MonoBehaviour, IInteract
 
     void Update()
     {
-
+        //Only show bar when active.
+        //TODO: make this system dynamic so it works with any prefab
+        if (currentState == AnvilState.Idle && barSprite != null && barSprite.activeInHierarchy)
+        {
+            barSprite.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
