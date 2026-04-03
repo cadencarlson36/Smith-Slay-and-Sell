@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interact : MonoBehaviour
+public class PlayerInteract : MonoBehaviour
 {
+    private string INTERACT_TAG = "Interactable";
     private CharacterController controller;
     [Header("Debug Options")]
     public bool showInteractSphere = false;
@@ -10,8 +11,15 @@ public class Interact : MonoBehaviour
     private Transform interactSphereTransform;
     private InteractSphere interactSphereScript;
 
-    private GameObject heldObject;
+    //Public for interact interface
+    public Transform heldObject;
+    public Rigidbody heldRb;
 
+    [Header("Magnet Settings")]
+    public float suctionStrength = 250f;
+    public float dampening = 15f;
+    public float holdDistance = 1.5f;
+    public float holdHeight = 1.0f;
     private void Awake()
     {
         //This code attempts to get a component on the attatched game object and otherwise creates it.
@@ -20,7 +28,8 @@ public class Interact : MonoBehaviour
             controller = gameObject.AddComponent<CharacterController>();
 
         //This code searches for the InteractSphere, and if it doesn't exist, it creates a new one.
-        //This is slightly unnecessary to be completely honest.
+        //This is slightly unnecessary to be completely honest, but it's a good way to showcase how
+        //to use scripting to create components and attatch them all together.
         interactSphereTransform = transform.Find("InteractSphere");
         if (!interactSphereTransform)
         {
@@ -28,7 +37,9 @@ public class Interact : MonoBehaviour
             interactSphereObj.AddComponent<InteractSphere>();
             interactSphereObj.transform.SetParent(transform);
             interactSphereObj.transform.localPosition = new Vector3(0, 0, 1);
-            interactSphereObj.AddComponent<SphereCollider>().isTrigger = true;
+            SphereCollider col = interactSphereObj.AddComponent<SphereCollider>();
+            col.isTrigger = true;
+            col.radius = 1f;
             interactSphereTransform = interactSphereObj.transform;
             interactSphereScript = interactSphereObj.GetComponent<InteractSphere>();
             var meshFilter = interactSphereObj.GetComponent<MeshFilter>();
@@ -57,40 +68,84 @@ public class Interact : MonoBehaviour
         }
     }
 
-    //Callback function definitions for each of the interactions
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
+        interactSphereScript.CleanUpList();
 
-        Debug.Log("Interact started");
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
-        var objectInRange = interactSphereScript.GetNearestInRange();
-        if (objectInRange)
+        //Some things don't destroy immediately in order to determine logic. 
+        //Better to cover all cases than follow one strict paradigm. All objects
+        //that are set inactive should get deleted eventually though or we risk memory leaks.
+        if (heldRb != null && heldRb.gameObject.activeInHierarchy)
         {
-            heldObject = objectInRange;
-            heldObject.transform.SetParent(transform);
-            heldObject.transform.localPosition = new Vector3(0, 0, 1.5f);
+            DropObject();
+            return;
         }
-        Debug.Log(objectInRange);
-        //Debug.Log("Interact held");
+
+        //Sanity check
+        heldRb = null;
+        heldObject = null;
+
+        //The following block of code gets the nearest interactable that collided with the interact sphere
+        //it then gets all of the MonoBehaviours in order to extract a possible interface, and then
+        //uses the provided interface to interact with the object. We pass the player so the object can
+        //attach itself or perform any needed behaviors. On my machine, the namespace doens't recognize
+        //the interface
+        var objectInRange = interactSphereScript.GetNearestFiltered(INTERACT_TAG);
+        //Debug.Log(objectInRange.name);
+        if (objectInRange != null)
+        {
+            var tempMonoArray = objectInRange.GetComponents<MonoBehaviour>();
+            foreach (var monoBehavior in tempMonoArray)
+            {
+                var temp = monoBehavior as IInteract;
+                if (temp != null)
+                {
+                    temp.Interact(this.gameObject);
+                }
+            }
+        }
     }
+
     private void OnInteractCanceled(InputAction.CallbackContext ctx)
     {
-
-        Debug.Log("Interact canceled");
-        if (heldObject)
-        {
-            heldObject.transform.SetParent(null);
-            heldObject = null;
-        }
     }
-    void Update()
+
+    private void DropObject()
     {
-        if (heldObject != null)
+        if (heldRb != null)
         {
-            heldObject.transform.position = transform.position + transform.forward * 1.5f;
+            heldRb.useGravity = true;
+            heldRb.angularDamping = 0.05f;//default unity value
+            heldRb.linearVelocity = Vector3.ClampMagnitude(heldRb.linearVelocity, 10f);
+            heldRb.angularVelocity = Vector3.zero;
+            heldRb = null;
+        }
+        heldObject = null;
+    }
+
+    void FixedUpdate()
+    {
+        if (heldRb != null)
+        {
+            //Magnet hands code
+            Vector3 targetPos = transform.position + (transform.forward * holdDistance) + (Vector3.up * holdHeight);
+            Vector3 direction = targetPos - heldRb.position;
+            float distance = direction.magnitude;
+
+            float forceMultiplier = Mathf.Clamp(distance * distance, 0.1f, 10f);
+            Vector3 suctionForce = direction.normalized * (suctionStrength * forceMultiplier);
+            Vector3 dragForce = heldRb.linearVelocity * dampening;
+
+            if (distance < 0.05f)
+            {
+                heldRb.linearVelocity = Vector3.Lerp(heldRb.linearVelocity, Vector3.zero, Time.fixedDeltaTime);
+            }
+
+            heldRb.AddForce(suctionForce - dragForce, ForceMode.Acceleration);
         }
     }
 }

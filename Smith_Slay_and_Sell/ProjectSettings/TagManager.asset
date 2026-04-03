@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Processable
+  - Pickupable
+  - Forgeable
+  - Interactable
   layers:
   - Default
   - TransparentFX
