@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5526510370948039828}
   - component: {fileID: -2905735745653317713}
   - component: {fileID: -4271738416446910794}
+  - component: {fileID: -3481306379709395171}
   m_Layer: 0
   m_Name: MouldHolder
   m_TagString: Interactable
@@ -83,6 +84,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &-3481306379709395171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506925708470799719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be99f2b89c3d18918139ab6eb1f78a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Anvil
+  currentState: 0
+  processingHits: 10
+  anvilSounds:
+  - {fileID: 8300000, guid: 9b3031d32231aeb4d9c3dc6b4e147045, type: 3}
+  - {fileID: 8300000, guid: 61e8ca1f200e4cae396043530f9625b5, type: 3}
+  - {fileID: 8300000, guid: 2b08b1ec38da2130ca135869567d05e5, type: 3}
+  - {fileID: 8300000, guid: d02dc5c40b014badb925305612a403db, type: 3}
+  barSprite: {fileID: 0}
+  hitAnimationSprite: {fileID: 0}
+  validItemTag: Forgeable
+  outputPrefab: {fileID: 5506925708470799719, guid: 5227c17bc3ed5ba909d25bbeef23f38a, type: 3}
+  spawnPoint: {fileID: 0}
 --- !u!1 &7056806685189604142
 GameObject:
   m_ObjectHideFlags: 0
