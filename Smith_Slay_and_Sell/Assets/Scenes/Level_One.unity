@@ -292,6 +292,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1668781121119669187, guid: c44aea9dc5c243fb1a9c45426689ee5e, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
     - target: {fileID: 5506925708470799719, guid: c44aea9dc5c243fb1a9c45426689ee5e, type: 3}
       propertyPath: m_Name
       value: CoalBox
@@ -525,6 +529,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1668781121119669187, guid: ae615e57a49def598898ef135ba35df3, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
     - target: {fileID: 5506925708470799719, guid: ae615e57a49def598898ef135ba35df3, type: 3}
       propertyPath: m_Name
       value: OreBox
@@ -2173,6 +2181,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1306296103252447144, guid: 66ce50c4dd50884cfa7d37e3c3d0732b, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
+    - target: {fileID: 1306296103252447144, guid: 66ce50c4dd50884cfa7d37e3c3d0732b, type: 3}
       propertyPath: connectedCrucible
       value: 
       objectReference: {fileID: 1520212431}
@@ -2496,6 +2508,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6713709718366849792, guid: 28ff888ac8eb97e38922a381e95885d5, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
     - target: {fileID: 6713709718366849792, guid: 28ff888ac8eb97e38922a381e95885d5, type: 3}
       propertyPath: recipeManager
       value: 
@@ -2943,6 +2959,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7179791964669414823, guid: 005e7bb9575fbb166902e2c4dc6d357b, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
     - target: {fileID: 7179791964669414823, guid: 005e7bb9575fbb166902e2c4dc6d357b, type: 3}
       propertyPath: recipeManager
       value: 
@@ -4446,9 +4466,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -3481306379709395171, guid: b4c40844562f41e4e8a588ea513c73a5, type: 3}
+      propertyPath: sfxManager
+      value: 
+      objectReference: {fileID: 2085523138}
+    - target: {fileID: -3481306379709395171, guid: b4c40844562f41e4e8a588ea513c73a5, type: 3}
       propertyPath: recipeManager
       value: 
       objectReference: {fileID: 958470397}
+    - target: {fileID: -3481306379709395171, guid: b4c40844562f41e4e8a588ea513c73a5, type: 3}
+      propertyPath: popSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3481306379709395171, guid: b4c40844562f41e4e8a588ea513c73a5, type: 3}
+      propertyPath: 'popSounds.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4b745dece0124c1d8a62aa71729eb041, type: 3}
     - target: {fileID: 5506925708470799719, guid: b4c40844562f41e4e8a588ea513c73a5, type: 3}
       propertyPath: m_Name
       value: Anvil
@@ -4923,6 +4955,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c804ed7c14a0f736b74feaeae380fcc, type: 3}
+--- !u!1 &2085523137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2085523139}
+  - component: {fileID: 2085523138}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2085523138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085523137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ef6d77294dba738803b8a50ddc4444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXManager
+  popSounds:
+  - {fileID: 8300000, guid: 4b745dece0124c1d8a62aa71729eb041, type: 3}
+--- !u!4 &2085523139
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085523137}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.31583, y: 1.44187, z: -1.59504}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2097936060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5526510370948039828, guid: 4c804ed7c14a0f736b74feaeae380fcc, type: 3}
@@ -4954,3 +5032,4 @@ SceneRoots:
   - {fileID: 1021012628}
   - {fileID: 762600189}
   - {fileID: 78308756}
+  - {fileID: 2085523139}

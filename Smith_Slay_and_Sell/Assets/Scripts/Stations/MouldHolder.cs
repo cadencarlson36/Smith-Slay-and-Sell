@@ -14,9 +14,10 @@ public class MouldHolder : MonoBehaviour, IInteract
     [SerializeField]
     private MouldRecipeDict recipeManager;
 
+    public SFXManager sfxManager;
+
     [Header("MouldHolder Status")]
     public MouldHolderState currentState = MouldHolderState.Empty;
-
     private bool hasMould = false;
     private MouldType heldMould = MouldType.None;
     private OreType heldMetal = OreType.None;
@@ -54,6 +55,7 @@ public class MouldHolder : MonoBehaviour, IInteract
                 hasMould = true;
                 currentState = MouldHolderState.Idle;
                 Destroy(parentObject);
+                sfxManager.PopSound(transform.position);
             }
         }
     }
@@ -85,6 +87,7 @@ public class MouldHolder : MonoBehaviour, IInteract
             spawnPos,
             Quaternion.identity
         );
+        sfxManager.PopSound(transform.position);
 
         currentState = MouldHolderState.Idle;
         heldMetal = OreType.None;

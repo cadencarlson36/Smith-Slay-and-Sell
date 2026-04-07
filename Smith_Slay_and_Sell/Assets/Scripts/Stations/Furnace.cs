@@ -13,6 +13,8 @@ public class Furnace : MonoBehaviour, IInteract
     [SerializeField]
     private FurnaceRecipeDict recipeManager;
 
+    public SFXManager sfxManager;
+
     [SerializeField]
     private GameObject fireSprite;
 
@@ -70,12 +72,15 @@ public class Furnace : MonoBehaviour, IInteract
             {
                 heldSmeltable = smeltable.type;
                 hasSmeltable = true;
+
                 Destroy(parentObject);
+                sfxManager.PopSound(transform.position);
             }
             else if (!hasFuel && parentObject.TryGetComponent(out CoalItem coalItem))
             {
                 hasFuel = true;
                 Destroy(parentObject);
+                sfxManager.PopSound(transform.position);
             }
         }
     }
@@ -100,6 +105,7 @@ public class Furnace : MonoBehaviour, IInteract
             spawnPos,
             Quaternion.identity
         );
+        sfxManager.PopSound(transform.position);
 
         //Set back to default state
         hasFuel = false;

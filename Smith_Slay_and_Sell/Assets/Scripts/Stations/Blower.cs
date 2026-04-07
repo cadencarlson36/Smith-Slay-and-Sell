@@ -8,6 +8,7 @@ public class Blower : MonoBehaviour, IInteract
 
     public int maxCoalCapacity = 10;
     public int heatPerPump = 20;
+    public SFXManager sfxManager;
 
     [Header("Current Status (Read Only)")]
     [SerializeField]
@@ -24,6 +25,7 @@ public class Blower : MonoBehaviour, IInteract
         if (parentObject.TryGetComponent(out CoalItem coalItem))
         {
             currentCoalCount++;
+            sfxManager.PopSound(transform.position);
             Destroy(parentObject);
         }
     }

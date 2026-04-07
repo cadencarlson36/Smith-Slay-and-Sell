@@ -25,6 +25,7 @@ public class Anvil : MonoBehaviour, IInteract
     private int currentHits = 0;
 
     public AudioClip[] anvilSounds;
+    public SFXManager sfxManager;
 
     private bool hasWorkable = false;
     private WorkableType heldWorkable = WorkableType.None;
@@ -62,6 +63,7 @@ public class Anvil : MonoBehaviour, IInteract
             {
                 hasWorkable = true;
                 heldWorkable = workable.type;
+                sfxManager.PopSound(transform.position);
                 Destroy(parentObject);
             }
         }
@@ -109,7 +111,7 @@ public class Anvil : MonoBehaviour, IInteract
             if (hitAnimationSprite.TryGetComponent(out SpriteAnimator component))
             {
                 component.PlayOnce();
-                TriggerSound();
+                AnvilHitSound();
             }
             currentHits += 1;
             Debug.Log("test");
@@ -120,7 +122,7 @@ public class Anvil : MonoBehaviour, IInteract
         }
     }
 
-    void TriggerSound()
+    void AnvilHitSound()
     {
         SFX.Play(
             anvilSounds[Random.Range(0, anvilSounds.Length)],

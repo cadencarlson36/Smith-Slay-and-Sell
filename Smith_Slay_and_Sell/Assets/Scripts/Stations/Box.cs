@@ -1,26 +1,27 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 //FIXME code duplication between Furnace and Anvil. Mostly everything is the same other than
 //interact and tag filtering
 
-public class OreBox : MonoBehaviour, IInteract{
-
+public class OreBox : MonoBehaviour, IInteract
+{
+    public SFXManager sfxManager;
     public AudioClip[] oreBoxSounds;
     public GameObject oreObj;
-    public
-        void Update()
-    { }
+
+    public void Update() { }
+
     public void Interact(GameObject player)
     {
-        TriggerSound();
+        //TriggerSound();
+        sfxManager.PopSound(transform.position);
         SpawnObjectTryHold(player);
     }
+
     void SpawnObjectTryHold(GameObject player)
     {
-
-
         GameObject spawnedObject = Instantiate(oreObj, transform.position, Quaternion.identity);
         Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
 
@@ -44,7 +45,7 @@ public class OreBox : MonoBehaviour, IInteract{
         if (playerInteractScript != null && playerInteractScript.heldRb == null)
         {
             playerInteractScript.heldRb = spawnedObject.GetComponent<Rigidbody>();
-            playerInteractScript.heldObject = spawnedObject.transform;//TODO don't name transform as object; jebaited
+            playerInteractScript.heldObject = spawnedObject.transform; //TODO don't name transform as object; jebaited
         }
         else
         {
@@ -52,15 +53,18 @@ public class OreBox : MonoBehaviour, IInteract{
             Debug.Log("Unreachable code reached");
         }
     }
-    void TriggerSound()
-    {
-        Debug.Log("Sound");
 
-        if (oreBoxSounds != null && oreBoxSounds.Length > 0)
-        {
-            SFX.Play(oreBoxSounds[Random.Range(0, oreBoxSounds.Length)], transform.position, Random.Range(1f, 1.5f));
-        }
-    }
-
-
+    // void TriggerSound()
+    // {
+    //     Debug.Log("Sound");
+    //
+    //     if (oreBoxSounds != null && oreBoxSounds.Length > 0)
+    //     {
+    //         SFX.Play(
+    //             oreBoxSounds[Random.Range(0, oreBoxSounds.Length)],
+    //             transform.position,
+    //             Random.Range(1f, 1.5f)
+    //         );
+    //     }
+    // }
 }
