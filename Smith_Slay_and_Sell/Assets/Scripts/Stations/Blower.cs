@@ -7,7 +7,7 @@ public class Blower : MonoBehaviour, IInteract
     private Crucible connectedCrucible;
 
     public int maxCoalCapacity = 10;
-    public int heatPerPump = 20;
+    public float heatPerPump = 20f;
     public SFXManager sfxManager;
 
     [Header("Current Status (Read Only)")]
