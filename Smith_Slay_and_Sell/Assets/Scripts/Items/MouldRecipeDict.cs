@@ -30,7 +30,7 @@ public class MouldRecipeDict : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"Duplicate recipe for workable type: {recipeKey}");
+                Debug.LogWarning($"Duplicate recipe for workable + ore type: {recipeKey}");
             }
         }
     }

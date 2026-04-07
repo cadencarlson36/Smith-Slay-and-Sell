@@ -2714,7 +2714,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnvilRecipeDict
   recipeMappings:
   - workableType: 1
+    metalType: 1
     prefab: {fileID: 5506925708470799719, guid: 5227c17bc3ed5ba909d25bbeef23f38a, type: 3}
+  - workableType: 1
+    metalType: 2
+    prefab: {fileID: 5506925708470799719, guid: 5a99f85be3d61f7a3988a671e6213122, type: 3}
 --- !u!114 &958470398
 MonoBehaviour:
   m_ObjectHideFlags: 0
