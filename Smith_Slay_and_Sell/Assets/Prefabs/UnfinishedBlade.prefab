@@ -268,4 +268,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorkableItem
   type: 1
-  metalType: 0
+  metalType: 1
