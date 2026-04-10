@@ -11,4 +11,5 @@ public class FinishedItem : MonoBehaviour
 {
     public FinishedType type;
     public MetalType metalType;
+    public FinishedItemSO finishedItemSO;
 }

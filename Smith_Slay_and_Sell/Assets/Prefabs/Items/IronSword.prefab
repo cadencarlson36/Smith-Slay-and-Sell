@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 5424567908987411435}
   - component: {fileID: -575253484955356945}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: IronSword
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,3 +269,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FinishedItem
   type: 0
   metalType: 2
+  finishedItemSO: {fileID: 11400000, guid: db8038abf535714f1afca0712f62cfbf, type: 2}

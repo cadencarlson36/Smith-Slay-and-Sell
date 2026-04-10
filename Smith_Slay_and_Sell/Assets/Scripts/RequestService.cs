@@ -10,6 +10,7 @@ public struct Request
     public float timeLeft;
 
     // This is the requested object type
+    public FinishedItemSO finishedItemSO;
     public FinishedType finishedType;
     public MetalType metalType;
 }
@@ -20,18 +21,28 @@ public class RequestService : MonoBehaviour
     private readonly float DEFAULT_TIME = 120f; //Each request/order is 2 minutes long by default
     private List<Request> requests;
 
+    [SerializeField]
+    FinishedSOManager finishedSOManager;
+    private FinishedItemSO[] finishedItemSOs;
+
     void Awake()
     {
         requests = new List<Request>();
+        if (!finishedSOManager)
+        {
+            Debug.LogError("FinishedSOManager not set in this scene!");
+        }
+        finishedItemSOs = finishedSOManager.finishedItemSOs;
     }
 
-    Request CreateAndGetRequest(float time, FinishedType finishedType, MetalType metalType)
+    Request CreateAndGetRequest(float time, FinishedItemSO finishedItemSO)
     {
         Request newRequest = new()
         {
             timeLeft = time,
-            finishedType = finishedType,
-            metalType = metalType,
+            finishedItemSO = finishedItemSO,
+            finishedType = finishedItemSO.finishedObject.GetComponent<FinishedItem>().type,
+            metalType = finishedItemSO.finishedObject.GetComponent<FinishedItem>().metalType,
         };
         return newRequest;
     }
@@ -55,20 +66,26 @@ public class RequestService : MonoBehaviour
     {
         if (requests.Count < MAX_REQUEST)
         {
-            //Cool hack for getting array of type enum
-            FinishedType[] finishedTypes = (FinishedType[])Enum.GetValues(typeof(FinishedType));
-            MetalType[] metalTypes = (MetalType[])Enum.GetValues(typeof(MetalType));
-            //Filter out None and Slag using Linq
-            var validMetals = metalTypes
-                .Where(m => m != MetalType.None && m != MetalType.Slag)
-                .ToArray();
+            //Old requests that didn't use SOs.
+            // //Cool hack for getting array of type enum
+            // FinishedType[] finishedTypes = (FinishedType[])Enum.GetValues(typeof(FinishedType));
+            // MetalType[] metalTypes = (MetalType[])Enum.GetValues(typeof(MetalType));
+            // //Filter out None and Slag using Linq
+            // var validMetals = metalTypes
+            //     .Where(m => m != MetalType.None && m != MetalType.Slag)
+            //     .ToArray();
+            // System.Random rand = new();
+            // Request newRequest = new()
+            // {
+            //     finishedType = finishedTypes[rand.Next(finishedTypes.Length)],
+            //     metalType = validMetals[rand.Next(validMetals.Length)],
+            //     timeLeft = DEFAULT_TIME,
+            // };
             System.Random rand = new();
-            Request newRequest = new()
-            {
-                finishedType = finishedTypes[rand.Next(finishedTypes.Length)],
-                metalType = validMetals[rand.Next(validMetals.Length)],
-                timeLeft = DEFAULT_TIME,
-            };
+            Request newRequest = CreateAndGetRequest(
+                DEFAULT_TIME,
+                finishedItemSOs[rand.Next(finishedItemSOs.Length)]
+            );
             AddRequest(newRequest);
         }
         else
