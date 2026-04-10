@@ -20,14 +20,11 @@ public class ScoreHandler : MonoBehaviour
     // Update is called once per frame
     void Update() { }
 
-    public void UpdateScore(GameObject inputItem)
+    public void UpdateScore()
     {
         Debug.Log("score update called");
-        if (inputItem != null)
-        {
-            score += 5;
-            score_txt.text = "Score: " + score;
-            Debug.Log(score);
-        }
+        score += 5;
+        score_txt.text = "Score: " + score;
+        Debug.Log(score);
     }
 }

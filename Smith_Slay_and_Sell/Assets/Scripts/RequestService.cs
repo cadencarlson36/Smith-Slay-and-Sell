@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static System.Random;
 
@@ -57,11 +58,15 @@ public class RequestService : MonoBehaviour
             //Cool hack for getting array of type enum
             FinishedType[] finishedTypes = (FinishedType[])Enum.GetValues(typeof(FinishedType));
             MetalType[] metalTypes = (MetalType[])Enum.GetValues(typeof(MetalType));
+            //Filter out None and Slag using Linq
+            var validMetals = metalTypes
+                .Where(m => m != MetalType.None && m != MetalType.Slag)
+                .ToArray();
             System.Random rand = new();
             Request newRequest = new()
             {
                 finishedType = finishedTypes[rand.Next(finishedTypes.Length)],
-                metalType = metalTypes[rand.Next(metalTypes.Length)],
+                metalType = validMetals[rand.Next(validMetals.Length)],
                 timeLeft = DEFAULT_TIME,
             };
             AddRequest(newRequest);
@@ -73,11 +78,15 @@ public class RequestService : MonoBehaviour
     }
 
     //Return type to determine if item should be destroyed/turned in
-    public bool SubmitFinishedItem(FinishedType finishedType)
+    public bool SubmitFinishedItem(FinishedItem finishedItem)
     {
         for (int i = 0; i < requests.Count; i++)
         {
-            if (requests[i].finishedType == finishedType)
+            Request request = requests[i];
+            if (
+                request.finishedType == finishedItem.type
+                && request.metalType == finishedItem.metalType
+            )
             {
                 //TODO add reward processing here?
                 requests.RemoveAt(i);

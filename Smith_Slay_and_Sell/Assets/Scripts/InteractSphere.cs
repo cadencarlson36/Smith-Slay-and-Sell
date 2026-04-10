@@ -118,7 +118,7 @@ public class InteractSphere : MonoBehaviour
 
     void ApplyHighlight(GameObject obj)
     {
-        Debug.Log("Highlighting");
+        //Debug.Log("Highlighting");
         Renderer rend = obj.transform.root.GetComponentInChildren<Renderer>();
         if (rend != null)
         {

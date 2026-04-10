@@ -36,13 +36,13 @@ public class RequestManager : MonoBehaviour
         }
     }
 
-    public bool SubmitFinishedItem(FinishedType finishedType)
+    public bool SubmitFinishedItem(FinishedItem finishedItem)
     {
         if (debuglog)
         {
             Debug.Log("Attempting to submit finished item.");
         }
-        return requestService.SubmitFinishedItem(finishedType);
+        return requestService.SubmitFinishedItem(finishedItem);
     }
 
     private void SpawnRequest()
