@@ -5,6 +5,7 @@ public class PlayerInteract : MonoBehaviour
 {
     private string INTERACT_TAG = "Interactable";
     private CharacterController controller;
+
     [Header("Debug Options")]
     public bool showInteractSphere = false;
 
@@ -20,6 +21,7 @@ public class PlayerInteract : MonoBehaviour
     public float dampening = 15f;
     public float holdDistance = 1.5f;
     public float holdHeight = 1.0f;
+
     private void Awake()
     {
         //This code attempts to get a component on the attatched game object and otherwise creates it.
@@ -28,7 +30,7 @@ public class PlayerInteract : MonoBehaviour
             controller = gameObject.AddComponent<CharacterController>();
 
         //This code searches for the InteractSphere, and if it doesn't exist, it creates a new one.
-        //This is slightly unnecessary to be completely honest, but it's a good way to showcase how
+        //This is very unnecessary to be completely honest, but it's a good way to showcase how
         //to use scripting to create components and attatch them all together.
         interactSphereTransform = transform.Find("InteractSphere");
         if (!interactSphereTransform)
@@ -36,7 +38,7 @@ public class PlayerInteract : MonoBehaviour
             var interactSphereObj = new GameObject("InteractSphere");
             interactSphereObj.AddComponent<InteractSphere>();
             interactSphereObj.transform.SetParent(transform);
-            interactSphereObj.transform.localPosition = new Vector3(0, 0, 1);
+            interactSphereObj.transform.localPosition = new Vector3(0, 0.5f, 1);
             SphereCollider col = interactSphereObj.AddComponent<SphereCollider>();
             col.isTrigger = true;
             col.radius = 1f;
@@ -60,7 +62,8 @@ public class PlayerInteract : MonoBehaviour
     //OnValidate runs on both awake and on editor change to show the interactSphere for debugging purposes.
     private void OnValidate()
     {
-        if (!interactSphereTransform) return;
+        if (!interactSphereTransform)
+            return;
         var meshRenderer = interactSphereTransform.GetComponent<MeshRenderer>();
         if (meshRenderer)
         {
@@ -71,12 +74,11 @@ public class PlayerInteract : MonoBehaviour
     private void OnInteractStarted(InputAction.CallbackContext ctx)
     {
         interactSphereScript.CleanUpList();
-
     }
 
     private void OnInteractPerformed(InputAction.CallbackContext ctx)
     {
-        //Some things don't destroy immediately in order to determine logic. 
+        //Some things don't destroy immediately in order to determine logic.
         //Better to cover all cases than follow one strict paradigm. All objects
         //that are set inactive should get deleted eventually though or we risk memory leaks.
         if (heldRb != null && heldRb.gameObject.activeInHierarchy)
@@ -96,6 +98,7 @@ public class PlayerInteract : MonoBehaviour
         //the interface
         var objectInRange = interactSphereScript.GetNearestFiltered(INTERACT_TAG);
         //Debug.Log(objectInRange.name);
+
         if (objectInRange != null)
         {
             var tempMonoArray = objectInRange.GetComponents<MonoBehaviour>();
@@ -110,17 +113,19 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private void OnInteractCanceled(InputAction.CallbackContext ctx)
-    {
-    }
+    private void OnInteractCanceled(InputAction.CallbackContext ctx) { }
 
     private void DropObject()
     {
         if (heldRb != null)
         {
+            //Reenable collisions
+            heldRb.detectCollisions = true;
             heldRb.useGravity = true;
-            heldRb.angularDamping = 0.05f;//default unity value
-            heldRb.linearVelocity = Vector3.ClampMagnitude(heldRb.linearVelocity, 10f);
+            heldRb.angularDamping = 0.05f; //default unity value
+            //clamp and give a little push in the forward direction
+            heldRb.linearVelocity =
+                Vector3.ClampMagnitude(heldRb.linearVelocity, 10f) + transform.forward * 3.0f;
             heldRb.angularVelocity = Vector3.zero;
             heldRb = null;
         }
@@ -131,8 +136,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if (heldRb != null)
         {
+            //Disable collisions while holding object
+            heldRb.detectCollisions = false;
             //Magnet hands code
-            Vector3 targetPos = transform.position + (transform.forward * holdDistance) + (Vector3.up * holdHeight);
+            Vector3 targetPos =
+                transform.position + (transform.forward * holdDistance) + (Vector3.up * holdHeight);
             Vector3 direction = targetPos - heldRb.position;
             float distance = direction.magnitude;
 
@@ -142,7 +150,11 @@ public class PlayerInteract : MonoBehaviour
 
             if (distance < 0.05f)
             {
-                heldRb.linearVelocity = Vector3.Lerp(heldRb.linearVelocity, Vector3.zero, Time.fixedDeltaTime);
+                heldRb.linearVelocity = Vector3.Lerp(
+                    heldRb.linearVelocity,
+                    Vector3.zero,
+                    Time.fixedDeltaTime
+                );
             }
 
             heldRb.AddForce(suctionForce - dragForce, ForceMode.Acceleration);

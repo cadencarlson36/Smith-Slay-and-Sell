@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public static class SFX
 {
     public static void Play(AudioClip clip, Vector3 pos, float pitch = 1f, float vol = 1f)
