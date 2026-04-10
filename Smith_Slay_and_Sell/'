@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using static System.Random;
+
+[Serializable]
+public struct Request
+{
+    public float timeLeft;
+    public FinishedType finishedType; // This is the requested object type
+}
+
+public class RequestService : MonoBehaviour
+{
+    private readonly int MAX_REQUEST = 10;
+    private readonly float DEFAULT_TIME = 120f; //Each request/order is 2 minutes long by default
+    private List<Request> requests;
+
+    void Awake()
+    {
+        requests = new List<Request>();
+    }
+
+    Request CreateAndGetRequest(float time, FinishedType type)
+    {
+        Request newRequest = new() { timeLeft = time, finishedType = type };
+        return newRequest;
+    }
+
+    void AddRequest(Request newRequest)
+    {
+        if (requests.Count < MAX_REQUEST)
+        {
+            requests.Add(newRequest);
+        }
+    }
+
+    //TODO pull enums from a manager in the scene so we can ensure only items available to being made can be requested. (complicated recipes should be saved for later levels)
+    void CreateAndAddRandomRequest()
+    {
+        if (requests.Count < MAX_REQUEST)
+        {
+            //Cool hack for getting array of type enum
+            FinishedType[] finishedTypes = (FinishedType[])Enum.GetValues(typeof(FinishedType));
+            System.Random rand = new();
+            Request newRequest = new()
+            {
+                finishedType = finishedTypes[rand.Next(finishedTypes.Length)],
+                timeLeft = DEFAULT_TIME,
+            };
+            AddRequest(newRequest);
+        }
+        else
+        {
+            Debug.LogWarning("Requests are full");
+        }
+    }
+
+    void SubmitFinishedItem(FinishedType finishedType)
+    {
+        for (int i = 0; i < requests.Count; i++)
+        {
+            if (requests[i].finishedType == finishedType)
+            {
+                //TODO add reward processing here?
+                requests.RemoveAt(i);
+                break;
+            }
+        }
+    }
+
+    public void UpdateTimeLeft()
+    {
+        for (int i = 0; i < requests.Count; i++)
+        {
+            Request temp = requests[i];
+            temp.timeLeft -= Time.deltaTime;
+            requests[i] = temp;
+        }
+    }
+}

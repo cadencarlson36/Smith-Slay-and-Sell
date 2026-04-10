@@ -238,6 +238,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.walcht.ide.neovim": {
+      "version": "https://github.com/walcht/com.walcht.ide.neovim.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d8479eda416afeb7a102ef86d02d38fdac703271"
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

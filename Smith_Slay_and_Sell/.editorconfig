@@ -1,0 +1,23 @@
+root = true
+
+[*.cs]
+
+# --------------------------------------------------------
+# UNITY OVERRIDES: Stop Roslyn from complaining about Unity
+# --------------------------------------------------------
+
+# IDE0051: Remove unused private members
+# (Stops Roslyn from complaining about Unity magic methods like Start, Update, LateUpdate)
+dotnet_diagnostic.IDE0051.severity = none
+
+# IDE0005: Using directive is unnecessary
+# (Stops it from graying out 'using UnityEngine' if you only use magic methods)
+dotnet_diagnostic.IDE0005.severity = none
+
+# CS0169: The field is never used
+# (Prevents warnings on private fields that are only accessed via the Unity Inspector)
+dotnet_diagnostic.CS0169.severity = none
+
+# CS0649: Field is never assigned to, and will always have its default value null
+# (Prevents warnings on [SerializeField] variables that you assign in the Unity Editor)
+dotnet_diagnostic.CS0649.severity = none
