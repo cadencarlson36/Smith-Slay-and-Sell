@@ -1,7 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RequestManager : MonoBehaviour
 {
+    public event EventHandler OnRequestSpawned;
+    public event EventHandler OnRequestCompleted;
+
     [SerializeField]
     private RequestService requestService;
 
@@ -21,6 +27,7 @@ public class RequestManager : MonoBehaviour
         {
             SpawnRequest();
             spawnTimer = 0f;
+            OnRequestSpawned?.Invoke(this, EventArgs.Empty);
             if (debuglog)
             {
                 Debug.Log("Attempting to spawn a new request.");
@@ -42,7 +49,20 @@ public class RequestManager : MonoBehaviour
         {
             Debug.Log("Attempting to submit finished item.");
         }
-        return requestService.SubmitFinishedItem(finishedItem);
+        if (requestService.SubmitFinishedItem(finishedItem))
+        {
+            OnRequestCompleted?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public List<Request> GetRequests()
+    {
+        return requestService.GetRequests();
     }
 
     private void SpawnRequest()

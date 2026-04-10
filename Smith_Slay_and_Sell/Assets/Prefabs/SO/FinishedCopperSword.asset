@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ebc67c9892f85e7b3203ecb847668f, type: 3}
   m_Name: FinishedCopperSword
   m_EditorClassIdentifier: Assembly-CSharp::FinishedItemSo
+  requestName: Copper Sword
   finishedObject: {fileID: 5506925708470799719, guid: 5a99f85be3d61f7a3988a671e6213122, type: 3}
   sprite: {fileID: 21300000, guid: 191ce48392844a0c68eae5862dee45e5, type: 3}

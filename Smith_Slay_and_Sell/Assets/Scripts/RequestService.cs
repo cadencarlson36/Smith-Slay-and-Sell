@@ -58,7 +58,8 @@ public class RequestService : MonoBehaviour
     //Are we correctly managing memory here or is this depending on C# GC?
     public List<Request> GetRequests()
     {
-        return new List<Request>(requests);
+        //HELLO??
+        return requests;
     }
 
     //TODO pull enums from a manager in the scene so we can ensure only items available to being made can be requested. (complicated recipes should be saved for later levels)

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ebc67c9892f85e7b3203ecb847668f, type: 3}
   m_Name: FinishedCopperHammer
   m_EditorClassIdentifier: Assembly-CSharp::FinishedItemSo
+  requestName: Copper Hammer
   finishedObject: {fileID: 5506925708470799719, guid: b5a741caae72f392f94df412b6a2d492, type: 3}
   sprite: {fileID: 21300000, guid: 920d08e41d6ad9197b6772499635379d, type: 3}
