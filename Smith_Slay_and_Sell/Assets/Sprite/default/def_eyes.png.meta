@@ -100,8 +100,8 @@ TextureImporter:
       name: def_eyes_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 169
+        x: 10
+        y: 73
         width: 10
         height: 14
       alignment: 0
@@ -140,6 +140,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: def_eyes_2
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 169
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ed30c5a7ad92924cbe66968350df045
+      internalID: -256731712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -156,6 +178,7 @@ TextureImporter:
     nameFileIdTable:
       def_eyes_0: 1105108801
       def_eyes_1: 876718662
+      def_eyes_2: -256731712
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

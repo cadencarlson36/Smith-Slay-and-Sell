@@ -16,11 +16,13 @@ public class CharacterLayer
     public List<AnimationClipData> animations;
 
     public Sprite[] GetAnimation(string animName)
-    {
+    {	
         foreach (var clip in animations)
         {
-            if (clip.animationName == animName)
+            if (clip.animationName == animName && clip.frames.Length > 0)
+	    {
                 return clip.frames;
+	    }
         }
         return null;
     }
@@ -30,7 +32,7 @@ public class SkinHandler : MonoBehaviour
 {
     public CharacterLayer[] layers;
     public float fps = 8f;
-    public string currentAnimation = "idle";
+    public string currentAnimation;
 
     private float timer;
     private int currentFrame;
@@ -70,7 +72,13 @@ public class SkinHandler : MonoBehaviour
             if (layer.renderer == null) continue;
 
             Sprite[] frames = layer.GetAnimation(currentAnimation);
-            if (frames == null || frames.Length == 0) continue;
+            if (frames == null || frames.Length == 0)
+	    {
+		layer.renderer.enabled = false;
+		continue;
+	    } else {
+		layer.renderer.enabled = true;
+	    }
 
             int frameIndex = Mathf.Min(currentFrame, frames.Length - 1);
             layer.renderer.sprite = frames[frameIndex];
