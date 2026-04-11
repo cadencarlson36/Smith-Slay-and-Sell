@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 4339209869775190007}
   - component: {fileID: 7303932866538419565}
   - component: {fileID: 5943993834774861702}
+  - component: {fileID: 1708496242034169149}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -264,6 +265,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &1708496242034169149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506925708470799719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed18eea9d5211d7ffa5534aeb9619ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPause
 --- !u!1001 &987284101204673275
 PrefabInstance:
   m_ObjectHideFlags: 0
